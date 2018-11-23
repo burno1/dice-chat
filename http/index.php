@@ -18,13 +18,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { //INCICIO IF
 		}
 } //Fim do IF
 
-
-
 	$sql = "SELECT message FROM $table ";
 	if(!($message_set = mysqli_query($conn,$sql))){
 	  die("Problemas para carregar tarefas do BD!<br>".
 	       mysqli_error($conn));
-	}
+
+}
+  $sql_rooms = "SELECT roomID,roomName FROM $table1";
+  if (!($room_set= mysqli_query($conn,$sql_rooms))){
+    die ("deu ruim no bd <br>" . mysqli_error ($conn));
+  }
 
 
 	mysqli_close($conn);
@@ -54,16 +57,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { //INCICIO IF
 		<!-- menu -->
 		<div class="col-sm-2 side">
 			<div class="buttons">
-				<button id=createRoom type="button" class="btn btn-primary btn-lg" onclick="createRoom()">Criar Sala</button>
-
+			<a href="register.php"	<button id=createRoom type="button" class="btn btn-primary btn-lg">Criar Sala</button>> </a>
 		 </div>
 		 <div class="space"></div>
 
 		 	<!-- área de atuação do php para acesso ao bd e montagem das salas -->
 		 <div id="rooms">
- 		 		<button type="button" class="btn btn-info btn-lg">Erick Room</button>
+       <?php if(mysqli_num_rows($room_set) > 0): ?>
+       <?php while ($room = mysqli_fetch_assoc($room_set)): ?>
 
-			</div>
+ 		<a href="login.php"	<button type="button" class="btn btn-info btn-lg"><?php echo $room["roomName"] ?> </button> </a>
+    <?php endwhile;?>
+  <?php endif;?>
+      </div>
 		</div>
 
 		<!-- área de atuação do php para acesso ao bd e montagem das mensagens -->
@@ -72,13 +78,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { //INCICIO IF
 			<div id=chatArea class="col-sm-12 mensagens">
 				<?php if(mysqli_num_rows($message_set) > 0): ?>
 					<?php while($message = mysqli_fetch_assoc($message_set)): ?>
-
 				<p class="enviado"><?php echo $message["message"] ?></p>
-			<!--	<p class="dado">D18</p> -->
 			<!-- <p class="recebido> </p> -->
 			<?php endwhile;?>
 			<?php endif; ?>
-			</div>
+
+      </div>
 
 		<!-- área de atuação do javascript/php para envio de mensagens -->
 		<div class="sendbox navbar navbar-inverse navbar-fixed-bottom">
