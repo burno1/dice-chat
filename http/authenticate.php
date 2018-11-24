@@ -1,11 +1,9 @@
 <?php
   session_start();
 
-  if (isset($_SESSION["roomId"]) && isset($_SESSION["roomName"])) {
+  if (isset($_SESSION["name"])) {
     $login = true;
-    $roomID = $_SESSION["roomId"];
-    $roomName = $_SESSION["roomName"];
-
+    $roomName = $_SESSION["name"];
   }
   else{
     $login = false;

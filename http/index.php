@@ -1,5 +1,6 @@
 <?php
 require_once "credentials.php";
+require "authenticate.php";
 
 $conn = mysqli_connect($servername,$username,"",$dbname);
 
@@ -20,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { //INCICIO IF
 
 	$sql = "SELECT message FROM $table ";
 	if(!($message_set = mysqli_query($conn,$sql))){
-	  die("Problemas para carregar tarefas do BD!<br>".
+	  die("Problemas para carregar msgs do BD!<br>".
 	       mysqli_error($conn));
 
 }
@@ -33,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { //INCICIO IF
 	mysqli_close($conn);
 
 ?>
-
+<!DOCTYPE html>
 <html lang="pt">
 <head>
 	<title>Dice & Chat</title>
@@ -57,15 +58,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { //INCICIO IF
 		<!-- menu -->
 		<div class="col-sm-2 side">
 			<div class="buttons">
-			<a href="register.php"	<button id=createRoom type="button" class="btn btn-primary btn-lg">Criar Sala</button>> </a>
+			<a href="register.php"	<button id=createRoom type="button" class="btn btn-primary btn-lg">Criar Sala</button> </a>
 		 </div>
 		 <div class="space"></div>
 
 		 	<!-- área de atuação do php para acesso ao bd e montagem das salas -->
 		 <div id="rooms">
-       <?php if(mysqli_num_rows($room_set) > 0): ?>
+       <?php if($login): ?>
+         	<a href="login.php"	<button type="button" class="btn btn-info btn-lg"><?php echo "Você está conectado em: " . $roomName ?> </button> </a>
+       <?php elseif(mysqli_num_rows($room_set) > 0): ?>
        <?php while ($room = mysqli_fetch_assoc($room_set)): ?>
-
  		<a href="login.php"	<button type="button" class="btn btn-info btn-lg"><?php echo $room["roomName"] ?> </button> </a>
     <?php endwhile;?>
   <?php endif;?>

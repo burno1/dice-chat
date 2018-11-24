@@ -16,10 +16,7 @@ if (!$login && $_SERVER["REQUEST_METHOD"] == "POST") {
     $password = mysqli_real_escape_string($conn,$_POST["password"]);
     $password = md5($password);
 
-    echo $password;
-    echo "//";
-
-    $sql = "SELECT roomName,roomPassword FROM rooms
+    $sql = "SELECT roomID,roomName,roomPassword FROM rooms
             WHERE roomName = '$name';";
 
     $result = mysqli_query($conn, $sql);
@@ -27,14 +24,11 @@ if (!$login && $_SERVER["REQUEST_METHOD"] == "POST") {
       if (mysqli_num_rows($result) > 0) {
         $user = mysqli_fetch_assoc($result);
 
-        echo $password;
-        echo "";
-        echo $user["roomPassword"];
 
         if ($user["roomPassword"] == $password) {
 
-
-          $_SESSION["name"] = $user["name"];
+          $_SESSION["name"] = $user["roomName"];
+          $_SESSOION["id"] = $user["roomID"];
 
           header("Location: " . dirname($_SERVER['SCRIPT_NAME']) . "/index.php");
           exit();
