@@ -17,9 +17,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { //INCICIO IF
 				die( "deu ruim" . mysqli_error($var));
 			}
 		}
-} //Fim do IF
+} elseif ($_SERVER["REQUEST_METHOD"] == "GET"){ //Fim do IF
+  if (isset($_GET["acao"])) {
+    $sql = "";
+    $dado_value = rand(1,20);
 
-	$sql = "SELECT message FROM $table ";
+
+    if($_GET["acao"] == "dado"){
+      $sql = "INSERT INTO $table (message,dado)
+              VALUES ('$dado_value',1)";
+
+        }
+    if ($sql != ""){
+      if(!($dado_set = mysqli_query($conn,$sql))){
+        die("deu ruim " . mysqli_error($conn));
+      }
+    }
+    }
+  }
+
+
+	$sql = "SELECT message,dado FROM $table ";
 	if(!($message_set = mysqli_query($conn,$sql))){
 	  die("Problemas para carregar msgs do BD!<br>".
 	       mysqli_error($conn));
@@ -47,45 +65,56 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { //INCICIO IF
 </head>
 
 <body>
+
+  <!-- Banner -->
 	<div class="row banner">
  		<div class="col-sm-12">
 			<img src="images/banner1.jpg">
 		</div>
 	</div>
+  <!-- Banner -->
+
+
 	<!--corpo do site -->
 	<div class="row body">
 
 		<!-- menu -->
 		<div class="col-sm-2 side">
 			<div class="buttons">
-			<a href="register.php"	<button id=createRoom type="button" class="btn btn-primary btn-lg">Criar Sala</button> </a>
+			<a href="register.php"	<button id=createRoom type="button" class="btn btn-primary btn-lg">Criar Sala</button>> </a>
 		 </div>
+     <!-- fim do menu -->
+
 		 <div class="space"></div>
 
 		 	<!-- área de atuação do php para acesso ao bd e montagem das salas -->
 		 <div id="rooms">
        <?php if($login): ?>
          	<a href="login.php"	<button type="button" class="btn btn-info btn-lg"><?php echo "Você está conectado em: " . $roomName ?> </button> </a>
-       <?php elseif(mysqli_num_rows($room_set) > 0): ?>
-       <?php while ($room = mysqli_fetch_assoc($room_set)): ?>
- 		<a href="login.php"	<button type="button" class="btn btn-info btn-lg"><?php echo $room["roomName"] ?> </button> </a>
-    <?php endwhile;?>
-  <?php endif;?>
+        <?php elseif(mysqli_num_rows($room_set) > 0): ?>
+          <?php while ($room = mysqli_fetch_assoc($room_set)): ?>
+ 		       <a href="login.php"	<button type="button" class="btn btn-info btn-lg"><?php echo $room["roomName"] ?> </button> </a>
+           <?php endwhile;?>
+         <?php endif;?>
       </div>
 		</div>
+    <!-- Fim da area de acesso as rooms -->
 
-		<!-- área de atuação do php para acesso ao bd e montagem das mensagens -->
-		<div class="col-sm-10 activeroom">
-
+<!-- área de atuação do php para acesso ao bd e montagem das mensagens -->
+    <div class="col-sm-10 activeroom">
+<!-- Envio de mensagem, dado = 1 estiliza o dado -->
 			<div id=chatArea class="col-sm-12 mensagens">
 				<?php if(mysqli_num_rows($message_set) > 0): ?>
 					<?php while($message = mysqli_fetch_assoc($message_set)): ?>
-				<p class="enviado"><?php echo $message["message"] ?></p>
-			<!-- <p class="recebido> </p> -->
-			<?php endwhile;?>
-			<?php endif; ?>
-
-      </div>
+            <?php if($message["dado"] == 0): ?>
+				          <p class="enviado"><?php echo $message["message"] ?></p>
+                 <?php else: ?>
+		                  <p class="dado"><?php echo $message["message"] ?> </p>
+              <?php endif; ?>
+			     <?php endwhile;?>
+			  <?php endif; ?>
+    </div>
+<!-- Fim da área de mensagens -->
 
 		<!-- área de atuação do javascript/php para envio de mensagens -->
 		<div class="sendbox navbar navbar-inverse navbar-fixed-bottom">
@@ -98,12 +127,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { //INCICIO IF
 						<input required type="text" name="message" class="form-control" id="inputMessage" placeholder="Enviar nova mensagem">
 					</div>
 				</form>
+        <!-- fim do form -->
 
-				<form action="<?php echo $_SERVER["PHP_SELF"] ?>" method="POST">
-					<div class="form-group">
-						<button id=sendDice name="sendDice" type="d20" class="btn btn-warning d20">Rolar D20</button>
-					</div>
-				</form>
+        <!-- Botão de rolagem de dados, metodo GET -->
+        <a href="<?php echo $_SERVER["PHP_SELF"] . "?id=" . "" . "&" . "acao=dado" ?>">
+          <button aria-label="Feito" class="btn btn-warning d20" type="d20">
+            <span class="glyphicon glyphicon-ok"></span> Rolar D20!
+          </button>
+        </a>
+        <!-- Fim área do botão -->
 
 				</div>
 		</div>

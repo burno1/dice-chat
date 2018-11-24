@@ -10,8 +10,6 @@ if (!$login && $_SERVER["REQUEST_METHOD"] == "POST") {
 
     $conn = connect_db();
 
-
-
     $name = mysqli_real_escape_string($conn,$_POST["name"]);
     $password = mysqli_real_escape_string($conn,$_POST["password"]);
     $password = md5($password);
@@ -54,6 +52,8 @@ if (!$login && $_SERVER["REQUEST_METHOD"] == "POST") {
   }
 }
 ?>
+
+
 <!DOCTYPE html>
 <html>
 <head>

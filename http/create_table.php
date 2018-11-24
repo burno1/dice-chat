@@ -10,7 +10,9 @@ if (!$conn){
 
 $sql = "CREATE TABLE $table (
   message VARCHAR (100) NOT NULL,
-  user VARCHAR (100) NOT NULL
+  user VARCHAR (100) NOT NULL,
+  dado BIT,
+  roomID INTEGER
 )";
 
 if (mysqli_query($conn, $sql)) {
