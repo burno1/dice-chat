@@ -3,7 +3,7 @@ require "db_functions.php";
 require "authenticate.php";
 
 $error = false;
-$password = $name = "";
+$password = $ID = $name = "";
 
 if (!$login && $_SERVER["REQUEST_METHOD"] == "POST") {
   if (isset($_POST["name"]) && isset($_POST["password"])) {
@@ -20,13 +20,13 @@ if (!$login && $_SERVER["REQUEST_METHOD"] == "POST") {
     $result = mysqli_query($conn, $sql);
     if($result){
       if (mysqli_num_rows($result) > 0) {
-        $user = mysqli_fetch_assoc($result);
+        $room = mysqli_fetch_assoc($result);
 
 
-        if ($user["roomPassword"] == $password) {
+        if ($room["roomPassword"] == $password) {
 
-          $_SESSION["name"] = $user["roomName"];
-          $_SESSOION["id"] = $user["roomID"];
+          $_SESSION["name"] = $room["roomName"];
+          $_SESSION["id"] = $room["roomID"];
 
           header("Location: " . dirname($_SERVER['SCRIPT_NAME']) . "/index.php");
           exit();
@@ -65,6 +65,7 @@ if (!$login && $_SERVER["REQUEST_METHOD"] == "POST") {
 
 <?php if ($login): ?>
     <h3>Você já está logado!</h3>
+    <?php echo $_SESSION["id"] ?>
   </body>
   </html>
   <?php exit(); ?>
@@ -76,7 +77,7 @@ if (!$login && $_SERVER["REQUEST_METHOD"] == "POST") {
 
 <form action="login.php" method="post">
   <label for="text">Nome da Sala: </label>
-  <input type="text" name="name" value="<?php echo $name; ?>" required><br>
+  <input type="text" name="name" value="" required><br>
 
   <label for="password">Senha: </label>
   <input type="password" name="password" value="" required><br>

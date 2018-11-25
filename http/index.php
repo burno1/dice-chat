@@ -8,9 +8,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { //INCICIO IF
   if (isset($_POST["message"])) {
 
     $message = ($_POST["message"]);
+    $ID = $_SESSION["id"];
 
-    $sql = "INSERT INTO $table (message)
-            VALUES ('$message');";
+    $sql = "INSERT INTO $table (message,roomID)
+            VALUES ('$message',$ID);";
 
 		$var = mysqli_query ($conn,$sql);
 			if (!$var){
@@ -21,11 +22,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { //INCICIO IF
   if (isset($_GET["acao"])) {
     $sql = "";
     $dado_value = rand(1,20);
-
+    $ID = $_SESSION["id"];
 
     if($_GET["acao"] == "dado"){
-      $sql = "INSERT INTO $table (message,dado)
-              VALUES ('$dado_value',1)";
+      $sql = "INSERT INTO $table (message,dado,roomID)
+              VALUES ('$dado_value',1,$ID)";
 
         }
     if ($sql != ""){
@@ -36,12 +37,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { //INCICIO IF
     }
   }
 
+if ($login){
+$ID = $_SESSION ["id"];
 
-	$sql = "SELECT message,dado FROM $table ";
+
+	$sql = "SELECT message,dado,roomID
+          FROM messages
+          WHERE (roomID=$ID);";
 	if(!($message_set = mysqli_query($conn,$sql))){
 	  die("Problemas para carregar msgs do BD!<br>".
 	       mysqli_error($conn));
 
+}
 }
   $sql_rooms = "SELECT roomID,roomName FROM $table1";
   if (!($room_set= mysqli_query($conn,$sql_rooms))){
@@ -63,7 +70,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { //INCICIO IF
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/js.js"></script>
 </head>
-
 <body>
 
   <!-- Banner -->
@@ -104,6 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { //INCICIO IF
     <div class="col-sm-10 activeroom">
 <!-- Envio de mensagem, dado = 1 estiliza o dado -->
 			<div id=chatArea class="col-sm-12 mensagens">
+        <?php if($login) : ?>
 				<?php if(mysqli_num_rows($message_set) > 0): ?>
 					<?php while($message = mysqli_fetch_assoc($message_set)): ?>
             <?php if($message["dado"] == 0): ?>
@@ -113,6 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { //INCICIO IF
               <?php endif; ?>
 			     <?php endwhile;?>
 			  <?php endif; ?>
+      <?php endif; ?>
     </div>
 <!-- Fim da área de mensagens -->
 
