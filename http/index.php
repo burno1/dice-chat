@@ -1,6 +1,7 @@
 <?php
 require_once "credentials.php";
 require "authenticate.php";
+require "sanitize.php";
 
 $page = $_SERVER['PHP_SELF'];
 $sec = "10";
@@ -10,7 +11,8 @@ $conn = mysqli_connect($servername,$username,"",$dbname);
 if ($_SERVER["REQUEST_METHOD"] == "POST") { //INCICIO IF
   if (isset($_POST["message"])) {
 
-    $message = ($_POST["message"]);
+    $message = mysqli_real_escape_string($conn,$_POST["message"]);
+    $message = verify_field($message);
     $ID = $_SESSION["id"];
 
     $sql = "INSERT INTO $table (message,roomID)
@@ -72,7 +74,7 @@ $ID = $_SESSION ["id"];
 	<link rel="stylesheet" href="css/css.css">
 	<script src=js/jquery.js></script>
 	<script src="js/bootstrap.min.js"></script>
-	<script src="js/js.js"></script>
+	<script src="js/check_register.js"></script>
 </head>
 <body>
 

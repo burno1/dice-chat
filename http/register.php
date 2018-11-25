@@ -1,5 +1,6 @@
 <?php
 require "db_functions.php";
+require "sanitize.php";
 
 $error = false;
 $success = false;
@@ -13,6 +14,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = mysqli_real_escape_string($conn,$_POST["name"]);
     $password = mysqli_real_escape_string($conn,$_POST["password"]);
     $confirm_password = mysqli_real_escape_string($conn,$_POST["confirm_password"]);
+
+    $name = verify_field($name);
+    $password = verify_field($password);
+    $confirm_password = verify_field($confirm_password);
 
     if ($password == $confirm_password) {
       $password = md5($password);
@@ -62,6 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php endif; ?>
 
 <form action="register.php" method="post">
+
   <label for="name">Nome da Sala: </label>
   <input type="text" name="name" value="<?php echo $name; ?>" required><br>
 
