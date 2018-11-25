@@ -2,6 +2,9 @@
 require_once "credentials.php";
 require "authenticate.php";
 
+$page = $_SERVER['PHP_SELF'];
+$sec = "10";
+
 $conn = mysqli_connect($servername,$username,"",$dbname);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") { //INCICIO IF
@@ -64,6 +67,7 @@ $ID = $_SESSION ["id"];
 <head>
 	<title>Dice & Chat</title>
 	<meta charset="utf-8">
+   <meta http-equiv="refresh" content="<?php echo $sec?>;URL='<?php echo $page?>'">
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/css.css">
 	<script src=js/jquery.js></script>
