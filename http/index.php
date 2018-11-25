@@ -63,15 +63,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") { //INCICIO IF
 
 		 	<!-- área de atuação do php para acesso ao bd e montagem das salas -->
 		 <div id="rooms">
+       <div class="buttons">
        <?php if(mysqli_num_rows($room_set) > 0): ?>
        <?php while ($room = mysqli_fetch_assoc($room_set)): ?>
 
- 		<a href="login.php"	<button type="button" class="btn btn-info btn-lg"><?php echo $room["roomName"] ?> </button> </a>
+ 		<a href="login.php"	<button type="button" class="btn btn-info btn-lg"><?php echo $room["roomName"]?> </button> </a>
     <?php endwhile;?>
   <?php endif;?>
       </div>
 		</div>
-
+  </div>
 		<!-- área de atuação do php para acesso ao bd e montagem das mensagens -->
 		<div class="col-sm-10 activeroom">
 
