@@ -136,6 +136,7 @@ $ID = $_SESSION ["id"];
 			<!-- form action="ENVIAR MENSAGEM PRO BD" -->
  				<div class="col-sm-12">
 
+        <?php if($login): ?> <!-- Desativa a barra de chat e dado caso não haja sessão -->
 				<form action="<?php echo $_SERVER["PHP_SELF"] ?>" method="POST">
 					<div class="form-group">
 						<input required type="text" name="message" class="form-control" id="inputMessage" placeholder="Enviar nova mensagem">
@@ -150,7 +151,7 @@ $ID = $_SESSION ["id"];
           </button>
         </a>
         <!-- Fim área do botão -->
-
+      <?php endif; ?> <!-- Desativa barra de chat e dado caso não haja sessão -->
 				</div>
 		</div>
 <!-- /form -->
