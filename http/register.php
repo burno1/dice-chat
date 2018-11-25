@@ -39,6 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $error = true;
   }
 }
+
 ?>
 <!DOCTYPE html>
 <html>

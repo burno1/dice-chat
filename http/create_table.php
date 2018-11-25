@@ -25,6 +25,7 @@ $sql1 = "CREATE TABLE $table1(
   roomID INT AUTO_INCREMENT PRIMARY KEY,
   roomName VARCHAR (20) NOT NULL,
   roomPassword VARCHAR (40) NOT NULL
+    UNIQUE (roomName)
 )";
 
 if (mysqli_query($conn, $sql1)) {
