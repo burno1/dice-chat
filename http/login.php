@@ -57,11 +57,20 @@ if (!$login && $_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>[WEB 1] Exemplo Sistema de Login - Registro</title>
+	<title>Dice & Chat - Login</title>
+	<meta charset="utf-8">
+   <meta http-equiv="refresh" content="<?php echo $sec?>;URL='<?php echo $page?>'">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/css.css">
+	<script src=js/jquery.js></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/check_register.js"></script>
 </head>
 <body>
-<h1>Login</h1>
+
+<div class="col-sm-4">
+  <h1>LOGIN</h1>
+</div>
 
 <?php if ($login): ?>
     <h3>Você já está logado!</h3>
@@ -75,19 +84,19 @@ if (!$login && $_SERVER["REQUEST_METHOD"] == "POST") {
   <h3 style="color:red;"><?php echo $error_msg; ?></h3>
 <?php endif; ?>
 
-<form action="login.php" method="post">
-  <label for="text">Nome da Sala: </label>
-  <input type="text" name="name" value="" required><br>
+<form id="login" action="login.php" method="post">
+  <label class="col-sm-2"  for="text">NOME DA SALA: </label>
+  <input class="logintext" type="text" name="name" value="" required><br>
 
-  <label for="password">Senha: </label>
+  <label class="col-sm-2" for="password">SENHA: </label>
   <input type="password" name="password" value="" required><br>
 
-  <input type="submit" name="submit" value="Entrar">
+    <div class="row">
+  <input type="submit" class="btn btn-primary btn-lg col-sm-2" name="submit" value="ENTRAR">
+
 </form>
 
-<ul>
-  <li><a href="index.php">Voltar</a></li>
-</ul>
-</p>
+  <button type="button" class="btn btn-info btn-lg col-sm-2" onclick="window.location.href='index.php'">VOLTAR</button>
+</div>
 </body>
 </html>

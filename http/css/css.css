@@ -84,3 +84,8 @@ body {
   overflow-y: scroll;
   height: 600px;
 }
+
+#login *, h1 *{
+  text-align: center;
+  font-size: 26px;
+  }

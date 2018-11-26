@@ -77,7 +77,7 @@ $ID = $_SESSION ["id"];
 	<script src="js/check_register.js"></script>
 </head>
 <body>
-
+  <div class="container-fluid">
   <!-- Banner -->
 	<div class="row banner">
  		<div class="col-sm-12">
@@ -121,6 +121,7 @@ $ID = $_SESSION ["id"];
 <!-- Envio de mensagem, dado = 1 estiliza o dado -->
 			<div id=chatArea class="col-sm-12 mensagens">
         <?php if($login) : ?>
+          <!-- rola mensagens para baixo-->
             <script>$("#chatArea").animate({ scrollTop: $('#chatArea').prop("scrollHeight")}, 500);</script>
 				<?php if(mysqli_num_rows($message_set) > 0): ?>
 					<?php while($message = mysqli_fetch_assoc($message_set)): ?>
@@ -156,12 +157,13 @@ $ID = $_SESSION ["id"];
           </button>
         </a>
         <!-- Fim área do botão -->
-      <?php endif; ?> <!-- Desativa barra de chat e dado caso não haja sessão -->
-				</div>
-		</div>
-<!-- /form -->
+          <?php endif; ?> <!-- Desativa barra de chat e dado caso não haja sessão -->
+				  </div>
+		    </div>
+    <!-- /form -->
 
-	</div>
+    </div>
+  </div>
 </div>
 </body>
 
