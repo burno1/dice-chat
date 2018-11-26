@@ -93,7 +93,7 @@ $ID = $_SESSION ["id"];
 		<!-- menu -->
 		<div class="col-sm-2 side">
 			<div class="buttons">
-			<a href="register.php"	<button id=createRoom type="button" class="btn btn-primary btn-lg">Criar Sala</button>> </a>
+        <button type="button" id=createRoom  class="btn btn-primary btn-lg" onclick="window.location.href='register.php'">Criar Sala</button>
 		 </div>
      <!-- fim do menu -->
 
@@ -101,15 +101,19 @@ $ID = $_SESSION ["id"];
 
 		 	<!-- área de atuação do php para acesso ao bd e montagem das salas -->
 		 <div id="rooms">
+       <div class="buttons">
        <?php if($login): ?>
-         	<a href="login.php"	<button type="button" class="btn btn-info btn-lg"><?php echo "Você está conectado em: " . $roomName ?> </button> </a>
+         	<button type="button" class="btn btn-info btn-lg" onclick=""><?php echo "Conectado: " . $roomName ?> </button>
+          <button type="button" class="btn btn-danger btn-lg" onclick="window.location.href='logout.php'"><?php echo "Logout: " . $roomName ?> </button>
         <?php elseif(mysqli_num_rows($room_set) > 0): ?>
           <?php while ($room = mysqli_fetch_assoc($room_set)): ?>
- 		       <a href="login.php"	<button type="button" class="btn btn-info btn-lg"><?php echo $room["roomName"] ?> </button> </a>
+             <button type="button" class="btn btn-info btn-lg" onclick="window.location.href='login.php'"><?php echo $room["roomName"]?></button>
            <?php endwhile;?>
          <?php endif;?>
+         </div>
       </div>
 		</div>
+
     <!-- Fim da area de acesso as rooms -->
 
 <!-- área de atuação do php para acesso ao bd e montagem das mensagens -->
@@ -117,6 +121,7 @@ $ID = $_SESSION ["id"];
 <!-- Envio de mensagem, dado = 1 estiliza o dado -->
 			<div id=chatArea class="col-sm-12 mensagens">
         <?php if($login) : ?>
+            <script>$("#chatArea").animate({ scrollTop: $('#chatArea').prop("scrollHeight")}, 500);</script>
 				<?php if(mysqli_num_rows($message_set) > 0): ?>
 					<?php while($message = mysqli_fetch_assoc($message_set)): ?>
             <?php if($message["dado"] == 0): ?>
